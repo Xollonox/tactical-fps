@@ -39,13 +39,8 @@ export class RoundSystem {
 
   startNewRound() {
     this.round++;
-    this.phase = 'buy';
-    this.phaseTimer = this.buyTime;
 
-    // Reset enemy count
-    this.enemiesAlive = this.game.enemyAI.enemies.length;
-
-    // Give lose bonus if applicable
+    // Give lose/participation bonus for subsequent rounds
     if (this.round > 1) {
       this.money += this.roundWinReward;
     }
@@ -54,8 +49,9 @@ export class RoundSystem {
     this.game.player.reset();
     this.game.player.position.set(0, 0, 10);
 
-    // Reset enemies
-    this._resetEnemies();
+    // Remove old enemies
+    this.game.enemyAI.clear();
+    this.enemiesAlive = 0;
 
     // Clear kill feed
     this.game.ui.killFeed.innerHTML = '';
@@ -68,18 +64,18 @@ export class RoundSystem {
     this.game.ui.hideWinScreen();
     this.game.ui.hideRoundStart();
 
-    // Phase UI
-    this.game.ui.updateRoundPhase('BUY PHASE');
-    this.game.ui.updateRoundTimer(this.phaseTimer);
+    // Update money
     this.game.ui.updateMoney(this.money);
 
-    // Show round start overlay
+    // Show round start overlay (3 second countdown)
     this._startCountdown();
   }
 
   _startCountdown() {
+    this.phase = 'countdown';
     this.game.ui.showRoundStart(this.round, this.countdownTime);
     let count = this.countdownTime;
+    this.game.ui.roundCountdown.textContent = count;
 
     const interval = setInterval(() => {
       count--;
@@ -89,27 +85,14 @@ export class RoundSystem {
       if (count <= 0) {
         clearInterval(interval);
         this.game.ui.hideRoundStart();
-        this.phase = 'combat';
-        this.phaseTimer = this.roundTime;
-        this.roundActive = true;
-        this.game.ui.updateRoundPhase('COMBAT');
+        // Transition to buy phase
+        this.phase = 'buy';
+        this.phaseTimer = this.buyTime;
+        this.roundActive = false;
+        this.game.ui.updateRoundPhase('BUY PHASE');
+        this.game.ui.updateRoundTimer(this.phaseTimer);
       }
     }, 1000);
-  }
-
-  _resetEnemies() {
-    const spawns = this.game.map.getEnemySpawns();
-    const difficulties = ['easy', 'normal', 'hard'];
-    const enemyCount = Math.min(3 + this.round, 8);
-
-    // Remove existing enemies
-    this.game.enemyAI.clear();
-
-    // Create new enemies
-    for (let i = 0; i < enemyCount; i++) {
-      const spawn = spawns[i % spawns.length];
-      const diff = difficulties[Math.min(Math.floor(this.round / 2), difficulties.length - 1)];
-    }
   }
 
   // Create enemies (called from game.js)
@@ -188,6 +171,10 @@ export class RoundSystem {
     this.phaseTimer -= delta;
 
     switch (this.phase) {
+      case 'countdown':
+        // Countdown is handled by interval in _startCountdown
+        break;
+
       case 'buy':
         this.game.ui.updateRoundTimer(this.phaseTimer);
         if (this.phaseTimer <= 0) {
