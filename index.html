@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tactical FPS</title>
+  <script type="module" crossorigin src="./assets/index-C3qz2jx-.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DScNZ_Xa.css">
+</head>
+<body>
+  <!-- Game UI Overlay -->
+  <div id="ui-overlay">
+    <!-- Crosshair -->
+    <div id="crosshair">
+      <div class="crosshair-line top"></div>
+      <div class="crosshair-line bottom"></div>
+      <div class="crosshair-line left"></div>
+      <div class="crosshair-line right"></div>
+      <div class="crosshair-dot"></div>
+    </div>
+
+    <!-- Hit Marker -->
+    <div id="hit-marker">
+      <div class="hit-line tl"></div>
+      <div class="hit-line tr"></div>
+      <div class="hit-line bl"></div>
+      <div class="hit-line br"></div>
+    </div>
+
+    <!-- Damage Indicator -->
+    <div id="damage-indicator"></div>
+
+    <!-- Low Health Vignette -->
+    <div id="low-health-vignette"></div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div id="hud-left">
+        <div id="health-bar">
+          <div id="health-icon">&#9829;</div>
+          <div id="health-value">100</div>
+          <div id="health-fill"></div>
+        </div>
+        <div id="armor-bar">
+          <div id="armor-icon">&#9733;</div>
+          <div id="armor-value">0</div>
+          <div id="armor-fill"></div>
+        </div>
+      </div>
+      <div id="hud-center">
+        <div id="round-info">
+          <div id="round-phase">BUY PHASE</div>
+          <div id="round-timer">45</div>
+        </div>
+        <div id="kill-feed"></div>
+      </div>
+      <div id="hud-right">
+        <div id="money">$800</div>
+        <div id="ammo-display">
+          <div id="ammo-magazine">30</div>
+          <span id="ammo-separator">/</span>
+          <div id="ammo-reserve">90</div>
+        </div>
+        <div id="weapon-name">Rifle</div>
+      </div>
+    </div>
+
+    <!-- Round Messages -->
+    <div id="round-message"></div>
+
+    <!-- Buy Menu -->
+    <div id="buy-menu" class="hidden">
+      <div id="buy-header">
+        <h2>BUY MENU</h2>
+        <div id="buy-timer">Time remaining: 30</div>
+        <div id="buy-money">$800</div>
+      </div>
+      <div id="buy-items"></div>
+      <div id="buy-footer">
+        Press B to close | Press 1-8 to buy
+      </div>
+    </div>
+
+    <!-- Round Start Overlay -->
+    <div id="round-start" class="hidden">
+      <div id="round-number">Round 1</div>
+      <div id="round-countdown">3</div>
+    </div>
+
+    <!-- Death Screen -->
+    <div id="death-screen" class="hidden">
+      <div id="death-title">YOU DIED</div>
+      <div id="death-stats">
+        <div>Kills: <span id="death-kills">0</span></div>
+        <div>Round: <span id="death-round">1</span></div>
+      </div>
+      <div id="death-subtitle">Waiting for next round...</div>
+    </div>
+
+    <!-- Win Screen -->
+    <div id="win-screen" class="hidden">
+      <div id="win-title">ROUND WON</div>
+      <div id="win-stats">
+        <div>Kills: <span id="win-kills">0</span></div>
+        <div>Bonus: <span id="win-bonus">$0</span></div>
+      </div>
+    </div>
+
+    <!-- Scoreboard -->
+    <div id="scoreboard" class="hidden">
+      <div id="scoreboard-header">SCOREBOARD</div>
+      <div id="scoreboard-body">
+        <div class="score-row header">
+          <span>Player</span><span>Kills</span><span>Deaths</span><span>Score</span>
+        </div>
+        <div class="score-row">
+          <span>You</span><span id="sb-kills">0</span><span id="sb-deaths">0</span><span id="sb-score">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pause Overlay -->
+  <div id="pause-overlay" class="hidden">
+    <div id="pause-menu">
+      <h2>PAUSED</h2>
+      <p>Press ESC to resume</p>
+    </div>
+  </div>
+
+  <!-- Game Canvas -->
+  <div id="game-container"></div>
+
+</body>
+</html>
